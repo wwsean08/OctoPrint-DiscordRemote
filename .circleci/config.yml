@@ -61,4 +61,4 @@ workflows:
             parameters:
               octoprint-version:
                 - devel # validate that it works with the tip for next version
-                - 1.4.0 # the minimum version allowed via setup.py
+                - 1.4.0 # the minimum version allowed with python 3 and setup.py
