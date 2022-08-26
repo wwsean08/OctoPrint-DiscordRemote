@@ -33,7 +33,7 @@ jobs:
             apt update && apt install -y libjpeg-dev zlib1g-dev
             python -m venv venv
             . venv/bin/activate
-            pip install git+https://github.com/foosel/OctoPrint.git@devel
+            pip install git+https://github.com/foosel/OctoPrint.git@1.8.2
             pip install -r requirements.txt
             pip install -r requirements-dev.txt
             pip install pipdeptree
