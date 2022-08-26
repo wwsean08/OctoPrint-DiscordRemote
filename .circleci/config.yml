@@ -35,7 +35,7 @@ jobs:
             . venv/bin/activate
             pip install git+https://github.com/foosel/OctoPrint.git@devel
             pip install -r requirements.txt
-            pip install mock coverage tox
+            pip install -r requirements-dev.txt
 
       - save_cache:
           paths:
