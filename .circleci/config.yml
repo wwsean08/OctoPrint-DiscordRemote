@@ -71,5 +71,5 @@ workflows:
           matrix:
             parameters:
               octoprint-version:
-                - develop # validate that it works with the tip for next version
+                - devel # validate that it works with the tip for next version
                 - 1.3.11 # the minimum version allowed via setup.py
