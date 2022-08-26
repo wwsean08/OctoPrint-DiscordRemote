@@ -36,6 +36,7 @@ jobs:
             pip install git+https://github.com/foosel/OctoPrint.git@devel
             pip install -r requirements.txt
             pip install -r requirements-dev.txt
+            pip install pipdeptree
 
       - save_cache:
           paths:
@@ -51,6 +52,7 @@ jobs:
           name: Run tests
           command: |
             . venv/bin/activate
+            pipdeptree
             python setup.py test coverage
             python -m tox
 
