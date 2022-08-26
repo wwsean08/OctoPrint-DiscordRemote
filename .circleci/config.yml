@@ -15,6 +15,10 @@ jobs:
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/postgres:9.4
 
+    parameters:
+      octoprint-version:
+        type: string
+
     working_directory: ~/repo
 
     steps:
@@ -23,9 +27,9 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "requirements.txt" }}-{{ checksum "requirements-dev.txt" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+            - v1-dependencies-{{ checksum "requirements.txt" }}-{{ checksum "requirements-dev.txt" }}-<< parameters.octoprint-version >>
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
 
       - run:
           name: Install Dependencies
@@ -33,7 +37,7 @@ jobs:
             apt update && apt install -y libjpeg-dev zlib1g-dev
             python -m venv venv
             . venv/bin/activate
-            pip install git+https://github.com/foosel/OctoPrint.git@1.8.2
+            pip install git+https://github.com/foosel/OctoPrint.git@<< parameters.octoprint-version >>
             pip install -r requirements.txt
             pip install -r requirements-dev.txt
             pip install pipdeptree
@@ -41,7 +45,7 @@ jobs:
       - save_cache:
           paths:
             - ./venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}-{{ checksum "requirements-dev.txt" }}
+          key: v1-dependencies-{{ checksum "requirements.txt" }}-{{ checksum "requirements-dev.txt" }}-<< parameters.octoprint-version >>
 
       # run tests!
       # this example uses Django's built-in test-runner
@@ -59,3 +63,13 @@ jobs:
       - store_artifacts:
           path: htmlcov/
           destination: coverage-report
+
+workflows:
+  all-tests:
+    jobs:
+      - build:
+          matrix:
+            parameters:
+              octoprint-version:
+                - develop # validate that it works with the tip for next version
+                - 1.3.11 # the minimum version allowed via setup.py
