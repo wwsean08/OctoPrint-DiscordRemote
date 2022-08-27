@@ -423,7 +423,6 @@ class TestCommand(DiscordRemoteTestCase):
 
         with open(self._get_path('test_pattern.png')) as input_file:
             self.plugin.get_snapshot.return_value = [('snapshot.png', input_file)]
-
             messages = self.command.parse_command('/status')
             self.assertEqual(1, len(messages))
             embed, snapshot = messages[0]
